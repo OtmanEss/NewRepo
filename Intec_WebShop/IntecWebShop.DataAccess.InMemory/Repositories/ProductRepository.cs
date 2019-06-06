@@ -32,6 +32,7 @@ namespace IntecWebShop.DataAccess.InMemory.Repositories
         public void Insert(Product p)
         {
             products.Add(p);
+           
         }
 
         public void Update(Product product)
@@ -49,7 +50,7 @@ namespace IntecWebShop.DataAccess.InMemory.Repositories
 
         }
 
-        public Product Find(string id)
+        public Product FindProduct(string id)
         {
             Product product = products.Find(p => p.Id == id); 
             if (product!=null)
@@ -59,7 +60,20 @@ namespace IntecWebShop.DataAccess.InMemory.Repositories
             else
             {
                 throw new Exception("Product not found!");
+                
             }
+        }
+
+        public IQueryable<Product> Collection()
+        {
+            return products.AsQueryable();
+        }
+
+        public void Delete(string id)
+        {
+            Product productToDelete = FindProduct(id);
+            products.Remove(productToDelete);
+          
         }
     }
 }
