@@ -78,9 +78,9 @@ namespace IntecWebShopp.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(ProductCategory category)
+        public ActionResult Edit(ProductCategory cat)
         {
-            context.Update(category);
+            context.Update(cat);
             //context.Delete(product.Id);     //delete old product
             //context.Insert(product);        // insert new
             context.Commit();
