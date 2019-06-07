@@ -18,7 +18,8 @@ namespace IntecWebShop.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
-        //[Range(0.00,1000.00)]
+        // pour inserer des decimals ajouter dans webconfig system.web  <globalization culture="en-us"></globalization>
+        [Range(0,1000)]
         public decimal Price { get; set; }
         public string Category { get; set; }
         public string Image { get; set; }
