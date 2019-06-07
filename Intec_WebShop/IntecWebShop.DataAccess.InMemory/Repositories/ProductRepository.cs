@@ -38,10 +38,12 @@ namespace IntecWebShop.DataAccess.InMemory.Repositories
         public void Update(Product product)
         {
             Product productToUpdate = products.Find(p => p.Id == product.Id);
+
             // si produit n'est pas null on le remplace par produit
             if (productToUpdate!=null)
             {
-                productToUpdate = product;
+                int index = products.FindIndex(p => p.Id == product.Id);        // chercher index produit a modifier
+                products[index] = product;                                      // remplace par new product
             }
             else
             {
@@ -69,11 +71,11 @@ namespace IntecWebShop.DataAccess.InMemory.Repositories
             return products.AsQueryable();
         }
 
-        public void Delete(string id)
+        public bool Delete(string id)
         {
             Product productToDelete = FindProduct(id);
             products.Remove(productToDelete);
-          
+            return true;
         }
     }
 }
