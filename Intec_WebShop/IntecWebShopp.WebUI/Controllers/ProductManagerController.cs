@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using IntecWebShop.DataAccess.InMemory.Repositories;
 using IntecWebShop.Models;
-
-
+using IntecWebShop.ViewModels;
 
 namespace IntecWebShopp.WebUI.Controllers
 {
@@ -14,10 +13,12 @@ namespace IntecWebShopp.WebUI.Controllers
     {
         public ProductManagerController()
         {
-            context = new ProductRepository();
+            context = new ProductRepository();                              // acces a toutes les fct de product
+            productCategoryContext = new ProductCategoryRepository();       // acces a toutes les fonctionnalites de productcategory
         }
 
         ProductRepository context;
+        ProductCategoryRepository productCategoryContext;
 
         public ActionResult Index()
         {
@@ -29,8 +30,13 @@ namespace IntecWebShopp.WebUI.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            Product product = new Product();
-            return View(product);
+            // utilise le viewmodel(combinaison de deux classes)
+            //creer un new objet
+            ProductManagerViewModel viewModel = new ProductManagerViewModel();
+            viewModel.Product = new Product();
+            viewModel.productCategories = productCategoryContext.Collection();
+            //Product product = new Product();
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -78,7 +84,16 @@ namespace IntecWebShopp.WebUI.Controllers
             // find the product
             var productToUpdate = context.FindProduct(id);
 
-            return View(productToUpdate);
+            if (productToUpdate==null)
+            {
+                return HttpNotFound();
+            }
+
+            ProductManagerViewModel viewModel = new ProductManagerViewModel();
+            viewModel.Product = productToUpdate;
+            viewModel.productCategories = productCategoryContext.Collection();
+
+            return View(viewModel);
         }
 
         [HttpPost]
