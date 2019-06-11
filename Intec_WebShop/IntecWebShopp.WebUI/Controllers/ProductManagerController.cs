@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using IntecWebShop.Core.Interfaces;
 using IntecWebShop.DataAccess.InMemory.Repositories;
 using IntecWebShop.Models;
 using IntecWebShop.ViewModels;
@@ -11,14 +12,23 @@ namespace IntecWebShopp.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        public ProductManagerController()
+        IRepository<Product> context;
+        IRepository<ProductCategory> productCategoryContext;
+
+       
+
+        public ProductManagerController(IRepository<Product> productContext, IRepository<ProductCategory> categoryContext )
         {
-            context = new ProductRepository();                              // acces a toutes les fct de product
-            productCategoryContext = new ProductCategoryRepository();       // acces a toutes les fonctionnalites de productcategory
+            context =productContext;                              
+            productCategoryContext =categoryContext;
+
+            //productCategoryContext = new InMemoryRepository<ProductCategory>();       // acces a toutes les fonctionnalites de productcategory
+            //context = new InMemoryRepository<Product>();                              // acces a toutes les fct de product
+
         }
 
-        ProductRepository context;
-        ProductCategoryRepository productCategoryContext;
+
+       
 
         public ActionResult Index()
         {
@@ -56,7 +66,7 @@ namespace IntecWebShopp.WebUI.Controllers
         public ActionResult Delete(string id)
         {
             // trouver le produit 
-            var productToDelete = context.FindProduct(id);
+            var productToDelete = context.FindById(id);
            
                 // affiche le product to delete
                 return View(productToDelete);           
@@ -82,7 +92,7 @@ namespace IntecWebShopp.WebUI.Controllers
         public ActionResult Edit(string id)
         {           
             // find the product
-            var productToUpdate = context.FindProduct(id);
+            var productToUpdate = context.FindById(id);
 
             if (productToUpdate==null)
             {

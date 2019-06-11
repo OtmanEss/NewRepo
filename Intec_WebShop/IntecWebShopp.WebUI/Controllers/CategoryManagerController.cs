@@ -1,4 +1,5 @@
-﻿using IntecWebShop.DataAccess.InMemory.Repositories;
+﻿using IntecWebShop.Core.Interfaces;
+using IntecWebShop.DataAccess.InMemory.Repositories;
 using IntecWebShop.Models;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,12 @@ namespace IntecWebShopp.WebUI.Controllers
 {
     public class CategoryManagerController : Controller
     {
-        ProductCategoryRepository context;
+        IRepository<ProductCategory> context;
 
-        public CategoryManagerController()
+        public CategoryManagerController(IRepository<ProductCategory> categoryContext)
         {
-            context = new ProductCategoryRepository();
+            //context = new InMemoryRepository<ProductCategory>();
+            context = categoryContext;
         }    
 
         public ActionResult Index()
@@ -46,7 +48,7 @@ namespace IntecWebShopp.WebUI.Controllers
         public ActionResult Delete(string id)
         {
             // trouver le produit 
-            var productToDelete = context.FindProduct(id);
+            var productToDelete = context.FindById(id);
 
             // affiche le product to delete
             return View(productToDelete);
@@ -72,7 +74,7 @@ namespace IntecWebShopp.WebUI.Controllers
         public ActionResult Edit(string id)
         {
             // find the product
-            var productToUpdate = context.FindProduct(id);
+            var productToUpdate = context.FindById(id);
 
             return View(productToUpdate);
         }

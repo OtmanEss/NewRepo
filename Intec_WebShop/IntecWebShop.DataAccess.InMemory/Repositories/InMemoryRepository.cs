@@ -1,4 +1,5 @@
-﻿using IntecWebShop.Models;
+﻿using IntecWebShop.Core.Interfaces;
+using IntecWebShop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ namespace IntecWebShop.DataAccess.InMemory.Repositories
 {
     // classe de classe (T)
     //where T derive de la classe base
-    public class InMemoryRepository<T> where T:BaseEntity
+    // derive de l'interface (click droit sur la classe, extract interface)
+    public class InMemoryRepository<T> : IRepository<T> where T:BaseEntity
     {
         ObjectCache cache = MemoryCache.Default;
         List<T> items;
@@ -49,7 +51,7 @@ namespace IntecWebShop.DataAccess.InMemory.Repositories
             }
         }
 
-        public T FindProduct(string Id)
+        public T FindById(string Id)
         {
             T classe = items.Find(a => a.Id == Id);
 
@@ -68,12 +70,13 @@ namespace IntecWebShop.DataAccess.InMemory.Repositories
             return items.AsQueryable();
         }
 
-        public void Delete(string Id)
+        public bool Delete(string Id)
         {
             T classeToDelete = items.Find(a => a.Id == Id);
             if (classeToDelete!=null)
             {
-                items.Remove(classeToDelete);
+                return items.Remove(classeToDelete);
+                
             }
             else
             {
