@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace IntecWebShop.Models
 {
-    public class Product
+    public class Product:BaseEntity
     {
-        public string Id { get; set; }
+        //public string Id { get; set; }
 
         [StringLength(20)]
         [DisplayName("Product Name")]
@@ -26,9 +26,9 @@ namespace IntecWebShop.Models
 
 
         // a chaque new product on crée un nouvel id
-        public Product()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        //public Product()
+        //{
+        //    this.Id = Guid.NewGuid().ToString();
+        //}
     }
 }
