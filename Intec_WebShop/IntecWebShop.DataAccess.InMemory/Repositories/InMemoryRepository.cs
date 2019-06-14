@@ -40,15 +40,12 @@ namespace IntecWebShop.DataAccess.InMemory.Repositories
 
         public void Update(T classe)
         {
-            T classeToUpdate = items.Find(a => a.Id == classe.Id);
-            if (classeToUpdate!= null)
-            {
-                classeToUpdate = classe;
-            }
-            else
+            var classeToUpdate = items.FindIndex(a => a.Id == classe.Id);
+            if (classeToUpdate== -1)
             {
                 throw new Exception(className + " Not Found");
             }
+            items[classeToUpdate] = classe;
         }
 
         public T FindById(string Id)
