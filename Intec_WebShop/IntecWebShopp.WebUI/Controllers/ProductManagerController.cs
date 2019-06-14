@@ -25,10 +25,7 @@ namespace IntecWebShopp.WebUI.Controllers
             //productCategoryContext = new InMemoryRepository<ProductCategory>();       // acces a toutes les fonctionnalites de productcategory
             //context = new InMemoryRepository<Product>();                              // acces a toutes les fct de product
 
-        }
-
-
-       
+        }      
 
         public ActionResult Index()
         {
@@ -83,7 +80,7 @@ namespace IntecWebShopp.WebUI.Controllers
                 return HttpNotFound();
             }
             else
-            {
+            {            
                 return RedirectToAction("Index");
             }
         }
@@ -113,9 +110,7 @@ namespace IntecWebShopp.WebUI.Controllers
             //context.Delete(product.Id);     //delete old product
             //context.Insert(product);        // insert new
             context.Commit();
-            return RedirectToAction("Index");
-
-            
+            return RedirectToAction("Index");            
         }
        
        

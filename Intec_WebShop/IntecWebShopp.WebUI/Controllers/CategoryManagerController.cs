@@ -65,7 +65,7 @@ namespace IntecWebShopp.WebUI.Controllers
                 return HttpNotFound();
             }
             else
-            {
+            {                
                 return RedirectToAction("Index");
             }
         }

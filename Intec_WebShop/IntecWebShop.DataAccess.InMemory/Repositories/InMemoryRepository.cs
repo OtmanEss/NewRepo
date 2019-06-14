@@ -12,13 +12,13 @@ namespace IntecWebShop.DataAccess.InMemory.Repositories
     // classe de classe (T)
     //where T derive de la classe base
     // derive de l'interface (click droit sur la classe, extract interface)
-    public class InMemoryRepository<T> : IRepository<T> where T:BaseEntity
+    public class SqlRepository<T> : IRepository<T> where T:BaseEntity
     {
         ObjectCache cache = MemoryCache.Default;
         List<T> items;
         string className;
 
-        public InMemoryRepository()
+        public SqlRepository()
         {
             className = typeof(T).Name;     // determine le nom de la classe utilisée
             items = cache[className] as List<T>;
