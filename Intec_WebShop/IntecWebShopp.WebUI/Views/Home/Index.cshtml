@@ -1,12 +1,24 @@
-﻿@model IEnumerable<IntecWebShop.Models.Product>
+﻿@model IntecWebShop.ViewModels.ProductListViewModel
 @{
     ViewBag.Title = "Home Page";
 }
 
 <h1>Products</h1>
+<div class="col-md-3">
+    <h4>Filter by Category</h4>
+    <div class=" list-group">
+        @Html.ActionLink("All","Index",null, new {@class=Request["Category"]==null? "list-group-item active" : "list-group-item " })
+        @foreach (var cat in Model.Categories)
+        {
+            @Html.ActionLink(cat.Category,"Index", new { Category= cat.Category}, new { @class = Request["Category"] == cat.Category ? "list-group-item active" : "list-group-item " })
+        }
+
+    </div>
+</div>
+
 <div class=" row">
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Products)
     {
         <div class=" col-md-3" style=" text-align:center; height:230px;padding:10px;margin:10px;border:solid thin whitesmoke">
             <div class=" col-md-12">
@@ -28,3 +40,4 @@
         </div>
     }
 </div>
+<div class=" col-md-12 clearfix"></div>
