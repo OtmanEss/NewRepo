@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace IntecWebShop.Models
+namespace IntecWebShop.Core.Models
 {
     public class Product:BaseEntity
     {

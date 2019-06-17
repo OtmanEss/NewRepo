@@ -1,5 +1,6 @@
 ﻿using IntecWebShop.Core.Interfaces;
-using IntecWebShop.Models;
+using IntecWebShop.Core.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,7 @@
 using IntecWebShop.Core.Interfaces;
+using IntecWebShop.Core.Models;
 using IntecWebShop.DataAccess.SQL.Repositories;
-using IntecWebShop.Models;
+
 using System;
 
 using Unity;

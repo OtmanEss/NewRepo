@@ -1,5 +1,6 @@
 ﻿using System.Linq;
-using IntecWebShop.Models;
+using IntecWebShop.Core.Models;
+
 
 namespace IntecWebShop.Core.Interfaces
 {

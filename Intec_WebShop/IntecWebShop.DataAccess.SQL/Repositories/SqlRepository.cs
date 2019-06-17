@@ -1,6 +1,7 @@
 ﻿using IntecWebShop.Core.Interfaces;
+using IntecWebShop.Core.Models;
 using IntecWebShop.DataAccess.SQL.Contexts;
-using IntecWebShop.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,6 +11,14 @@ using System.Threading.Tasks;
 
 namespace IntecWebShop.DataAccess.SQL.Repositories
 {
+    //sql repository (classe generique) derive de interface (classe generique) where classe generique derive de base entity.
+
+    // sqlrepository<Product>: IRepository<product>: where product: base entity.
+    // sqlrepository<ProductCategory>: IRepository<productcategory>: where productcategory: base entity.
+    // evite de creer plusieur sqlrepo et y donne acces seulement s'il derive de base entity.
+    // si je cree une new class qui ne derive pas de basentity. impossible d'y implementer des fonctionnalites de sqlrepository.
+
+
     public class SqlRepository<T> : IRepository<T> where T : BaseEntity
     {
 

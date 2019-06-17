@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntecWebShop.Models
+namespace IntecWebShop.Core.Models
 {
     // classe de base abstraite car impossible de creer un objet de cette classe
     public  abstract class BaseEntity

@@ -5,9 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using IntecWebShop.Core.Interfaces;
+using IntecWebShop.Core.Models;
+using IntecWebShop.Core.ViewModels;
 using IntecWebShop.DataAccess.InMemory.Repositories;
-using IntecWebShop.Models;
-using IntecWebShop.ViewModels;
+
 
 namespace IntecWebShopp.WebUI.Controllers
 {

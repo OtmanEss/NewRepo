@@ -1,11 +1,12 @@
 ﻿using IntecWebShop.Core.Interfaces;
-using IntecWebShop.Models;
-using IntecWebShop.ViewModels;
+using IntecWebShop.Core.Models;
+using IntecWebShop.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace IntecWebShopp.WebUI.Controllers
 {
@@ -25,10 +26,10 @@ namespace IntecWebShopp.WebUI.Controllers
             List<Product> products;
             List<ProductCategory> productCategories = productCategoryContext.Collection().ToList();
 
-            // si pas de category. show all products        
-            if (productCategories==null)
+            //si pas de category. show all products
+            if (cat == null)
             {
-                products = context.Collection().ToList();
+                  products = context.Collection().ToList();               
             }
 
             //else show product where category is selected
