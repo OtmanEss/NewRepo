@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceModels\BasketService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IntecWebShop\IntecWebShop.Core.csproj">
+      <Project>{a2fd3527-2f6b-4e13-8b22-834320fd96ff}</Project>
+      <Name>IntecWebShop.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
