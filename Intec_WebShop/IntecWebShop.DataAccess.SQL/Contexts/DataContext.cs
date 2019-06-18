@@ -18,5 +18,7 @@ namespace IntecWebShop.DataAccess.SQL.Contexts
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> Categories { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
     }
 }
