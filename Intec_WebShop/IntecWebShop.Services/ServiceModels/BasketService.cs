@@ -1,5 +1,6 @@
 ﻿using IntecWebShop.Core.Interfaces;
 using IntecWebShop.Core.Models;
+using IntecWebShop.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Web;
 
 namespace IntecWebShop.Services.ServiceModels
 {
-    public class BasketService
+    public class BasketService:IBasketService
     {
         IRepository<Product> productContext;
         IRepository<Basket> basketContext;
@@ -27,10 +28,10 @@ namespace IntecWebShop.Services.ServiceModels
         {
             HttpCookie cookie = httpContext.Request.Cookies.Get(BasketSessionName);
             Basket basket = new Basket();
-            if (cookie!=null)       // cookie existe deja avec des infos 
+            if (cookie != null)       // cookie existe deja avec des infos 
             {
                 string basketId = cookie.Value;
-                if (string.IsNullOrEmpty(basketId)==false)      // si basketid is Not null or empty cad qu'il existe deja 
+                if (string.IsNullOrEmpty(basketId) == false)      // si basketid is Not null or empty cad qu'il existe deja 
                 {
                     basket = basketContext.FindById(basketId);      // si existe on le recherche
                 }
@@ -64,11 +65,11 @@ namespace IntecWebShop.Services.ServiceModels
 
         }
 
-        public void AddToBasket(HttpContextBase httpContext , string prodId)
+        public void AddToBasket(HttpContextBase httpContext, string prodId)
         {
             Basket basket = GetBasket(httpContext, true);
             BasketItem item = basket.BasketItems.FirstOrDefault(b => b.ProductId == prodId);
-            if (item==null)
+            if (item == null)
             {
                 item = new BasketItem()
                 {
@@ -92,11 +93,62 @@ namespace IntecWebShop.Services.ServiceModels
             Basket basket = GetBasket(httpContext, true);
             BasketItem item = basket.BasketItems.FirstOrDefault(i => i.Id == prodId);
 
-            if (item!=null)
+            if (item != null)
             {
                 basket.BasketItems.Remove(item);
                 basketContext.Commit();
             }
+        }
+
+        public List<BasketItemViewModel> GetBasketItem(HttpContextBase httpContext)
+        {
+            Basket basket = GetBasket(httpContext, false);
+            if (basket != null)
+            {
+                // join entre deux tables pour obtenir toutes les infos
+                var results = (from b in basket.BasketItems
+                               join p in productContext.Collection()
+                               on b.ProductId equals p.Id
+                               select new BasketItemViewModel()
+                               {
+                                   Id = b.Id,
+                                   Quantity = b.Quantity,
+                                   ProductName = p.Name,
+                                   Price = p.Price,
+                                   Image = p.Image
+                               }).ToList();
+                return results;  
+            }
+            else
+            {
+                return new List<BasketItemViewModel>();
+            }
+        }
+
+        public BasketSummaryViewModel GetBasketSummary(HttpContextBase httpContext)
+        {
+            Basket basket = GetBasket(httpContext, false);
+            BasketSummaryViewModel model = new BasketSummaryViewModel(0, 0);
+            if (basket!=null)
+            {
+                int? basketCount = (from item in basket.BasketItems
+                                    select item.Quantity).Sum();
+
+                decimal? basketTotal = (from item in basket.BasketItems
+                                        join p in productContext.Collection()
+                                        on item.ProductId equals p.Id
+                                        select item.Quantity * p.Price).Sum();
+                model.BasketCount = basketCount ?? 0;       // si basketcount est un int montrer sinon indiquer 0
+                model.BasketTotal = basketTotal ?? decimal.Zero;
+
+                return model;
+            }
+
+            else
+            {
+                return model;
+            }
+
         }
     }
 }
