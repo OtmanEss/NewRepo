@@ -53,8 +53,8 @@
                 @Html.DisplayFor(model => model.CreatedAt)
             </dd>
             <dd style="text-align:left">
-           <br />
-                <a href="#" class=" btn btn-success"><strong>Add to Cart</strong> </a>          
+                <br />
+                <a href="@Url.Action("AddToBasket","Basket",new {Id= item.Id})" class=" btn btn-success"><strong>Add to Cart</strong> </a>
             </dd>
         </dl>
     </div>

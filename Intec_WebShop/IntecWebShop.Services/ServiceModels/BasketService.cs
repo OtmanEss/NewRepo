@@ -10,7 +10,7 @@ using System.Web;
 
 namespace IntecWebShop.Services.ServiceModels
 {
-    public class BasketService:IBasketService
+    public class BasketService : IBasketService
     {
         IRepository<Product> productContext;
         IRepository<Basket> basketContext;
@@ -31,7 +31,7 @@ namespace IntecWebShop.Services.ServiceModels
             if (cookie != null)       // cookie existe deja avec des infos 
             {
                 string basketId = cookie.Value;
-                if (string.IsNullOrEmpty(basketId) == false)      // si basketid is Not null or empty cad qu'il existe deja 
+                if (!string.IsNullOrEmpty(basketId))      // si basketid is Not null or empty cad qu'il existe deja 
                 {
                     basket = basketContext.FindById(basketId);      // si existe on le recherche
                 }
@@ -45,7 +45,10 @@ namespace IntecWebShop.Services.ServiceModels
             }
             else
             {
-                basket = CreateNewBasket(httpContext);
+                if (createIfNull)
+                {
+                    basket = CreateNewBasket(httpContext);
+                }
             }
 
             return basket;
@@ -60,9 +63,9 @@ namespace IntecWebShop.Services.ServiceModels
             HttpCookie cookie = new HttpCookie(BasketSessionName);
             cookie.Value = basket.Id;
             cookie.Expires = DateTime.Now.AddDays(2);
+            httpContext.Response.Cookies.Add(cookie);
 
             return basket;
-
         }
 
         public void AddToBasket(HttpContextBase httpContext, string prodId)
@@ -117,7 +120,7 @@ namespace IntecWebShop.Services.ServiceModels
                                    Price = p.Price,
                                    Image = p.Image
                                }).ToList();
-                return results;  
+                return results;
             }
             else
             {
@@ -129,7 +132,7 @@ namespace IntecWebShop.Services.ServiceModels
         {
             Basket basket = GetBasket(httpContext, false);
             BasketSummaryViewModel model = new BasketSummaryViewModel(0, 0);
-            if (basket!=null)
+            if (basket != null)
             {
                 int? basketCount = (from item in basket.BasketItems
                                     select item.Quantity).Sum();
